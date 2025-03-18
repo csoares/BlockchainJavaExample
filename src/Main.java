@@ -9,19 +9,25 @@
 public class Main {
     public static void main(String[] args) {
         // Initialize blockchain with difficulty 4
-        // Higher difficulty means more computational work needed to mine blocks
         Blockchain blockchain = new Blockchain(4);
         
         // Demonstrate the mining process with sample transactions
         System.out.println("\n=== Mining Demonstration ===");
-        System.out.println("Mining block 1...");
-        blockchain.addBlock(new Block("Transaction: Alice sends 50 coins to Bob", "0"));
+        String[] names = {"Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Henry", "Ivy", "Jack"};
         
-        System.out.println("\nMining block 2...");
-        blockchain.addBlock(new Block("Transaction: Bob sends 30 coins to Charlie", "0"));
-        
-        System.out.println("\nMining block 3...");
-        blockchain.addBlock(new Block("Transaction: Charlie sends 10 coins to David", "0"));
+        for (int i = 0; i < 20; i++) {
+            System.out.println("\nMining block " + (i + 1) + "...");
+            // Generate random transactions between different users
+            int sender = (int) (Math.random() * names.length);
+            int receiver = (int) (Math.random() * names.length);
+            while (receiver == sender) {
+                receiver = (int) (Math.random() * names.length);
+            }
+            int amount = (int) (Math.random() * 100) + 1;
+            
+            Transaction transaction = new Transaction(names[sender], names[receiver], amount);
+            blockchain.addBlock(new Block(transaction, "")); // Let the Blockchain class handle the previous hash
+        }
         
         /**
          * Displays all blocks in the chain with their properties:
@@ -81,12 +87,15 @@ public class Main {
     private static void demonstrateTampering(Blockchain blockchain) {
         // Try to tamper with block data
         Block secondBlock = blockchain.getChain().get(1);
-        String originalData = secondBlock.getData();
-        secondBlock.setData("Tampered: Bob sends 1000 coins to Charlie");
+        String originalData = secondBlock.getData();  // Store original data
         
         System.out.println("Attempting to modify block data...");
-        System.out.println("Original data: " + originalData);
-        System.out.println("Tampered data: " + secondBlock.getData());
+        System.out.println("Original transaction: " + originalData);
+        
+        // Perform tampering
+        String tamperedData = "Tampered: Bob sends 1000 coins to Charlie";
+        secondBlock.setData(tamperedData);
+        System.out.println("Tampered transaction: " + secondBlock.getData());
         
         // Verify chain after tampering
         if (blockchain.isChainValid()) {
@@ -94,5 +103,8 @@ public class Main {
         } else {
             System.out.println("SUCCESS: Chain validation detected tampering!");
         }
+        
+        // Restore original data (optional)
+        secondBlock.setData(originalData);
     }
 }
