@@ -15,12 +15,21 @@ A simple yet powerful demonstration of blockchain technology implemented in Java
 src/
   ├── Block.java         # Block implementation with mining capability
   ├── Blockchain.java    # Main blockchain logic and chain management
+  ├── Transaction.java   # Transaction data structure and management
   └── Main.java          # Demo application with examples
 ```
 
 ## Technical Details
 
-### Block Structure
+### Components
+
+#### Transaction Structure
+Each transaction represents a transfer of coins and contains:
+- Sender address
+- Receiver address
+- Amount of coins
+
+#### Block Structure
 Each block in the chain contains:
 - Timestamp of creation
 - Transaction data
