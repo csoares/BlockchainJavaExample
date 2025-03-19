@@ -26,10 +26,10 @@ public class Main {
             int amount = (int) (Math.random() * 100) + 1;
             
             Transaction transaction = new Transaction(names[sender], names[receiver], amount);
-            blockchain.addBlock(new Block(transaction, "")); // Let the Blockchain class handle the previous hash
+            blockchain.addBlock(new Block(transaction, ""));
         }
-        
-        /**
+
+        /*
          * Displays all blocks in the chain with their properties:
          * - Block number
          * - Creation timestamp
